@@ -149,7 +149,6 @@
     <ClInclude Include="..\source\DxfReader.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\source\acisTest.cpp" />
     <ClCompile Include="..\source\DependencyInjection.cpp" />
     <ClCompile Include="..\source\main.cpp" />
     <ClCompile Include="..\source\occTest.cpp" />

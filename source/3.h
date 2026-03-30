@@ -3,15 +3,10 @@
 
 #include "2.h"  
 #include <iostream>
-class A;
 class B
 {
 public:
-    void InvokeA()
-    {
-        A* a;
-        //a->Print();
-    }
+    void InvokeA();
     B(){}
     void Print()
     {

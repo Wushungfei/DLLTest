@@ -26,9 +26,6 @@
     <ClCompile Include="..\source\main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\acisTest.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\opencascadeTest.cpp">
       <Filter>源文件</Filter>
     </ClCompile>

@@ -12,8 +12,8 @@ set LIBRARY_DIR_Debug=%LIB_DIR%Debug\;
 set Acis_LIB_DIR_Debug=%DEPENDENCY%Acis\NT_DLLD;
 set Acis_LIB_DIR_Release=%DEPENDENCY%Acis\NT_DLL;
 
-set VS2022_EXE="D:\VisualStudio2022\VS2022\Common7\IDE\devenv.exe"
-start %VS2022_EXE% %WORK_DIR%\libTest.sln
+set VS2022EXE="D:\VisualStudio2022\VS2022\Common7\IDE\devenv.exe"
+start %VS2022EXE% %WORK_DIR%\libTest.sln
 
 
 
