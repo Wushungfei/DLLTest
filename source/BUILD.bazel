@@ -1,0 +1,120 @@
+# source/BUILD.bazel
+
+load("@bazel_tools//tools/cpp:cc_library.bzl", "cc_library")
+load("@bazel_tools//tools/cpp:cc_binary.bzl", "cc_binary")
+
+package(default_visibility = ["//visibility:public"])
+
+# ---------- 编译模式配置 ----------
+config_setting(
+    name = "debug",
+    values = {"compilation_mode": "dbg"},
+)
+
+config_setting(
+    name = "release",
+    values = {"compilation_mode": "opt"},
+)
+
+# ---------- 公共编译选项 ----------
+COMMON_COPTS = [
+    "/std:c++20",
+    "/W3",
+    "/permissive-",  # 对应 ConformanceMode
+]
+
+# ---------- 项目3 (静态库) ----------
+cc_library(
+    name = "3",
+    srcs = ["3.cpp"],
+    hdrs = ["3.h"],
+    defines = [
+        "EXPORTS_3_DEF",
+        "EXPORTS_SWEPTCALC_DEF",
+        "_CONSOLE",
+    ] + select({
+        ":debug": ["_DEBUG"],
+        ":release": ["NDEBUG"],
+    }),
+    copts = COMMON_COPTS,
+)
+
+# ---------- 项目5 (静态库) ----------
+cc_library(
+    name = "5",
+    srcs = ["5.cpp"],
+    hdrs = ["5.h"],
+    defines = [
+        "EXPORTS_SWEPTCALC_DEF",
+        "_CONSOLE",
+    ] + select({
+        ":debug": ["_DEBUG"],
+        ":release": ["NDEBUG"],
+    }),
+    copts = COMMON_COPTS,
+)
+
+# ---------- 项目2 (静态库，原项目在 Debug 下为动态，此处统一为静态) ----------
+cc_library(
+    name = "2",
+    srcs = ["2.cpp"],
+    hdrs = ["2.h"],
+    defines = [
+        "EXPORTS_SWEPTCALC_DEF",
+        "_CONSOLE",
+    ] + select({
+        ":debug": ["_DEBUG"],
+        ":release": ["NDEBUG"],
+    }),
+    copts = COMMON_COPTS,
+    deps = [":3"],          # 依赖项目3
+)
+
+# ---------- 项目4 (动态库) ----------
+# 生成 4.dll 及其导入库 4.lib
+cc_binary(
+    name = "4.dll",
+    srcs = ["4.cpp", "4.h"],
+    defines = [
+        "EXPORTS_SWEPTCALC_DEF",
+        "_CONSOLE",
+    ] + select({
+        ":debug": ["_DEBUG"],
+        ":release": ["NDEBUG"],
+    }),
+    copts = COMMON_COPTS,
+    deps = [":5"],          # 依赖项目5
+    linkshared = 1,
+)
+
+# 如果需要将 4.dll 作为库供其他目标使用，可以添加 cc_import
+# cc_import(
+#     name = "4",
+#     hdrs = ["4.h"],
+#     shared_library = ":4.dll",
+# )
+
+# ---------- 项目1 (可执行文件) ----------
+cc_binary(
+    name = "1.exe",
+    srcs = [
+        "DependencyInjection.cpp",
+        "main.cpp",
+        "opencascadeTest.cpp",
+        "1.h",
+        "DxfReader.h",
+    ],
+    defines = [
+        "_CONSOLE",
+    ] + select({
+        ":debug": ["_DEBUG", "NT", "_CRT_SECURE_NO_WARNINGS"],
+        ":release": ["NDEBUG"],
+    }),
+    copts = COMMON_COPTS,
+    deps = [
+        ":2",
+        ":3",
+    ],
+    # 如果外部库的链接路径未自动包含，可在此添加 linkopts
+    # linkopts = ["/LIBPATH:path/to/libs"],
+)
