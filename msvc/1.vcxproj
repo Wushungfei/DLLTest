@@ -118,9 +118,9 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OUT_DIR)$(Configuration)\;$(Acis_LIB_DIR_Debug);$(Dependency)Acis\thirdparty\lib\NT_DLLD\;$(dependency)occ\lib\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OUT_DIR)$(Configuration)\</AdditionalLibraryDirectories>
       <ImportLibrary>$(LIB_DIR)$(Configuration)\$(TargetName).lib</ImportLibrary>
-      <AdditionalDependencies>$(Dependency)Acis\lib\NT_DLLD\*.lib;$(Dependency)Acis\thirdparty\lib\NT_DLLD\*.lib;$(dependency)occ\lib\*.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>5.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
